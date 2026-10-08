@@ -27,6 +27,7 @@ class MoodAnalyzer:
         # Use the default lists from dataset.py if none are provided.
         positive_words = positive_words if positive_words is not None else POSITIVE_WORDS
         negative_words = negative_words if negative_words is not None else NEGATIVE_WORDS
+        mixed_words = mixed_words if mixed_words is not None else MIXED_WORDS
 
         # Store as sets for faster lookup.
         self.positive_words = set(w.lower() for w in positive_words)
@@ -100,6 +101,12 @@ class MoodAnalyzer:
             score += 1
           elif token in self.negative_words:
             score -= 1
+          elif token in self.mixed_words:
+            # Bring score 1 closer to 0
+            if score > 0:
+              score -= 1
+            elif score < 0:
+              score += 1
         return score
 
     # ---------------------------------------------------------------------

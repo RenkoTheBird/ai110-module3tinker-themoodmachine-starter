@@ -38,6 +38,18 @@ NEGATIVE_WORDS = [
     "boring",
 ]
 
+# Targeted fix: Mixed words list
+MIXED_WORDS = [
+    "mixed",
+    "so-so",
+    "kind of",
+    "kinda",
+    "sort of",
+    "sorta",
+    "somewhat",
+    "but",
+]
+
 # ---------------------------------------------------------------------
 # Starter labeled dataset
 # ---------------------------------------------------------------------
