@@ -10,114 +10,78 @@ You may complete this model card for whichever version you used, or compare both
 ## 1. Model Overview
 
 **Model type:**  
-Describe whether you used the rule based model, the ML model, or both.  
-Example: “I used the rule based model only” or “I compared both models.”
+I compared both the rule-based model and the logistic regression ML model; with the LR ML model being significantly more effective.
 
 **Intended purpose:**  
-What is this model trying to do?  
-Example: classify short text messages as moods like positive, negative, neutral, or mixed.
+The model is attempting to classify short text messages as moods like positive, negative, neutral, or mixed.
 
 **How it works (brief):**  
-For the rule based version, describe the scoring rules you created.  
-For the ML version, describe how training works at a high level (no math needed).
+The rule based version scores text based upon the presence of positive, neutral, and mixed words.
+For the ML version, it uses logistic regression, which scores the likelihood of the text belonging to one of the mood categories with little overhead.
 
 
 
 ## 2. Data
 
 **Dataset description:**  
-Summarize how many posts are in `SAMPLE_POSTS` and how you added new ones.
+There are 12 posts in SAMPLE_POSTS, chosen to encompass modern speech along with positive, neutral, mixed, negative, and sarcastic moods.
 
 **Labeling process:**  
-Explain how you chose labels for your new examples.  
-Mention any posts that were hard to label or could have multiple valid labels.
+Labels were chosen to encompass common mannerisms of speech, including sarcasm, which is its own mood. Sometimes, sarcastic sentences can be interpreted as positive.
 
 **Important characteristics of your dataset:**  
-Examples you might include:  
-
-- Contains slang or emojis  
-- Includes sarcasm  
-- Some posts express mixed feelings  
-- Contains short or ambiguous messages
+The dataset includes sarcasm, slang, and several ambiguous sentences.
 
 **Possible issues with the dataset:**  
-Think about imbalance, ambiguity, or missing kinds of language.
+A rule-based dataset can't capture the inherent ambiguity of language and double meanings of words.
 
 ## 3. How the Rule Based Model Works (if used)
 
 **Your scoring rules:**  
-Describe the modeling choices you made.  
-Examples:  
-
-- How positive and negative words affect score  
-- Negation rules you added  
-- Weighted words  
-- Emoji handling  
-- Threshold decisions for labels
+Positive words increase the positive score, negative words increase the negative score, and mixed words bring the score closer to 0 (neutral).
 
 **Strengths of this approach:**  
-Where does it behave predictably or reasonably well?
+It can handle clearly positive or negative texts with great effect.
 
 **Weaknesses of this approach:**  
-Where does it fail?  
-Examples: sarcasm, subtlety, mixed moods, unfamiliar slang.
+The approach is poor at detecting mixed sentences or sarcasm (it sees the text as possible).
 
 ## 4. How the ML Model Works (if used)
 
 **Features used:**  
-Describe the representation.  
-Example: “Bag of words using CountVectorizer.”
+A simple logistic regression classifier.
 
 **Training data:**  
-State that the model trained on `SAMPLE_POSTS` and `TRUE_LABELS`.
+The model trained on `SAMPLE_POSTS` and `TRUE_LABELS`.
 
 **Training behavior:**  
-Did you observe changes in accuracy when you added more examples or changed labels?
+The model was able to handle text considered sarcastic, albeit with one/two examples.
 
 **Strengths and weaknesses:**  
-Strengths might include learning patterns automatically.  
-Weaknesses might include overfitting to the training data or picking up spurious cues.
+LR learns patterns quickly but tends to overfit with too many examples.
 
 ## 5. Evaluation
 
 **How you evaluated the model:**  
-Both versions can be evaluated on the labeled posts in `dataset.py`.  
-Describe what accuracy you observed.
+Rule-based model came out with 0.58 accuracy; LR-based had 1.00.
 
 **Examples of correct predictions:**  
-Provide 2 or 3 examples and explain why they were correct.
+All below are for the LR based model.
+
+"Just feeling so-so" -> predicted=mixed, true=mixed
+"I absolutely love getting stuck in traffic" -> predicted=sarcasm, true=sarcasm
+"Really feeling this one ngl" -> predicted=positive, true=positive
+
+"So-so" is inherently a mixed phrase. For the second sarcastic sentence, no one loves traffic; this is sarcasm. In the third "ngl" is slang for not gonna lie, indicating that the speaker loves the given thing, which is positive.
 
 **Examples of incorrect predictions:**  
-Provide 2 or 3 examples and explain why the model made a mistake.  
-If you used both models, show how their failures differed.
+For the above sarcasm sentence, the rule-based model indicated it as positive after seeing "love". Similarly, it detected "Really feeling this one ngl" as neutral because there was no positive word in the dataset.
 
 ## 6. Limitations
-
-Describe the most important limitations.  
-Examples:  
-
-- The dataset is small  
-- The model does not generalize to longer posts  
-- It cannot detect sarcasm reliably  
-- It depends heavily on the words you chose or labeled
+The dataset is small, meaning high accuracy means little and is not statistically significant.
 
 ## 7. Ethical Considerations
-
-Discuss any potential impacts of using mood detection in real applications.  
-Examples: 
-
-- Misclassifying a message expressing distress  
-- Misinterpreting mood for certain language communities  
-- Privacy considerations if analyzing personal messages
+There is frequent Western bias with regard to analyzing messages, especially with how LLMs handle English versus all other languages.
 
 ## 8. Ideas for Improvement
-
-List ways to improve either model.  
-Possible directions:  
-
-- Add more labeled data  
-- Use TF IDF instead of CountVectorizer  
-- Add better preprocessing for emojis or slang  
-- Use a small neural network or transformer model  
-- Improve the rule based scoring method  
-- Add a real test set instead of training accuracy only
+More labeled data and a transformer model would help the model identify sentiment instead of sentence content.

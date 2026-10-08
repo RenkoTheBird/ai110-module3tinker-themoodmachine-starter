@@ -23,6 +23,7 @@ class MoodAnalyzer:
         self,
         positive_words: Optional[List[str]] = None,
         negative_words: Optional[List[str]] = None,
+        mixed_words: Optional[List[str]] = None,
     ) -> None:
         # Use the default lists from dataset.py if none are provided.
         positive_words = positive_words if positive_words is not None else POSITIVE_WORDS
@@ -32,7 +33,7 @@ class MoodAnalyzer:
         # Store as sets for faster lookup.
         self.positive_words = set(w.lower() for w in positive_words)
         self.negative_words = set(w.lower() for w in negative_words)
-
+        self.mixed_words = set(w.lower() for w in mixed_words)
     # ---------------------------------------------------------------------
     # Preprocessing
     # ---------------------------------------------------------------------
