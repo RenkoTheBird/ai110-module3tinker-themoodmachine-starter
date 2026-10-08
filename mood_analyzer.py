@@ -88,13 +88,13 @@ class MoodAnalyzer:
         # like ("not", "happy") or ("never", "fun").
         tokens = self.preprocess(text)
         score = 0
-        for token in tokens:
+        for i, token in enumerate(tokens):
           # Handle simple negation
           if token == "not":
-            if tokens[i + 1] in self.positive_words:
-              score -= 1
-            elif tokens[i + 1] in self.negative_words:
+            if tokens[i + 1] in self.negative_words:
               score += 1
+            elif tokens[i + 1] in self.positive_words:
+              score -= 1
           # Handle positive and negative words
           if token in self.positive_words:
             score += 1
