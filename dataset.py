@@ -4,6 +4,7 @@ Shared data for the Mood Machine lab.
 This file defines:
   - POSITIVE_WORDS: starter list of positive words
   - NEGATIVE_WORDS: starter list of negative words
+  - MIXED_WORDS: starter list of mixed words
   - SAMPLE_POSTS: short example posts for evaluation and training
   - TRUE_LABELS: human labels for each post in SAMPLE_POSTS
 """
